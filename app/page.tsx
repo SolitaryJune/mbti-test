@@ -56,6 +56,9 @@ export default function PersonalityTest() {
           </CardHeader>
           <CardContent>
             <p className="text-md mt-4">{personalityResult.details}</p>
+            {personalityResult.career && (
+              <p className="text-md mt-4">{personalityResult.career}</p>
+            )}
           </CardContent>
           <CardFooter className="flex justify-center">
             <Button onClick={resetTest} className="w-full sm:w-auto">重新测试</Button>

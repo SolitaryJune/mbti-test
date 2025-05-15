@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Label } from "@/components/ui/label"
@@ -9,7 +9,6 @@ import { Progress } from "@/components/ui/progress"
 import { questions } from '../data/questions'
 import { personalityDescriptions } from '../data/personalityDescriptions'
 import { PersonalityTrait, PersonalityType, ArtStyle } from '../types/personality'
-import { ToastProvider } from "@/components/ui/toast-provider"
 
 export default function PersonalityTest() {
   const [currentQuestion, setCurrentQuestion] = useState(-2) // -2: 年龄输入, -1: 性别选择, 0+: MBTI问题
@@ -143,41 +142,39 @@ export default function PersonalityTest() {
     const imagePrompt = generateImagePrompt(result, artStyle);
     
     return (
-      <ToastProvider>
-        <div className="flex items-center justify-center min-h-screen bg-gray-100 p-4">
-          <Card className="w-full max-w-2xl">
-            <CardHeader>
-              <CardTitle className="text-2xl sm:text-3xl text-center">作为{age}岁{gender}的{result}类型</CardTitle>
-              <CardDescription className="text-lg text-center mt-4">{personalityResult.description}</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <p className="text-md mt-4">{personalityResult.details}</p>
-              {personalityResult.career && (
-                <p className="text-md mt-4">{personalityResult.career}</p>
-              )}
-              
-              {artStyle && (
-                <div className="mt-6 p-4 bg-gray-50 rounded-md">
-                  <div className="flex justify-between items-center mb-2">
-                    <h3 className="text-lg font-medium">文生图提示词</h3>
-                    <Button 
-                      variant="outline" 
-                      size="sm"
-                      onClick={() => copyToClipboard(imagePrompt)}
-                    >
-                      复制
-                    </Button>
-                  </div>
-                  <p className="text-sm text-gray-700">{imagePrompt}</p>
+      <div className="flex items-center justify-center min-h-screen bg-gray-100 p-4">
+        <Card className="w-full max-w-2xl">
+          <CardHeader>
+            <CardTitle className="text-2xl sm:text-3xl text-center">作为{age}岁{gender}的{result}类型</CardTitle>
+            <CardDescription className="text-lg text-center mt-4">{personalityResult.description}</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <p className="text-md mt-4">{personalityResult.details}</p>
+            {personalityResult.career && (
+              <p className="text-md mt-4">{personalityResult.career}</p>
+            )}
+            
+            {artStyle && (
+              <div className="mt-6 p-4 bg-gray-50 rounded-md">
+                <div className="flex justify-between items-center mb-2">
+                  <h3 className="text-lg font-medium">文生图提示词</h3>
+                  <Button 
+                    variant="outline" 
+                    size="sm"
+                    onClick={() => copyToClipboard(imagePrompt)}
+                  >
+                    复制
+                  </Button>
                 </div>
-              )}
-            </CardContent>
-            <CardFooter className="flex justify-center">
-              <Button onClick={resetTest} className="w-full sm:w-auto">重新测试</Button>
-            </CardFooter>
-          </Card>
-        </div>
-      </ToastProvider>
+                <p className="text-sm text-gray-700">{imagePrompt}</p>
+              </div>
+            )}
+          </CardContent>
+          <CardFooter className="flex justify-center">
+            <Button onClick={resetTest} className="w-full sm:w-auto">重新测试</Button>
+          </CardFooter>
+        </Card>
+      </div>
     )
   }
 

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useRef } from 'react'
+import { useState } from 'react'
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Label } from "@/components/ui/label"
@@ -9,7 +9,6 @@ import { Progress } from "@/components/ui/progress"
 import { questions } from '../data/questions'
 import { personalityDescriptions } from '../data/personalityDescriptions'
 import { PersonalityTrait, PersonalityType, ArtStyle } from '../types/personality'
-import { toast } from "@/components/ui/use-toast"
 import { ToastProvider } from "@/components/ui/toast-provider"
 
 export default function PersonalityTest() {

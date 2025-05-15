@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Label } from "@/components/ui/label"
@@ -8,7 +8,9 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Progress } from "@/components/ui/progress"
 import { questions } from '../data/questions'
 import { personalityDescriptions } from '../data/personalityDescriptions'
-import { PersonalityTrait, PersonalityType } from '../types/personality'
+import { PersonalityTrait, PersonalityType, ArtStyle } from '../types/personality'
+import { toast } from "@/components/ui/use-toast"
+import { ToastProvider } from "@/components/ui/toast-provider"
 
 export default function PersonalityTest() {
   const [currentQuestion, setCurrentQuestion] = useState(-2) // -2: 年龄输入, -1: 性别选择, 0+: MBTI问题
@@ -16,6 +18,8 @@ export default function PersonalityTest() {
   const [result, setResult] = useState<PersonalityType | null>(null)
   const [age, setAge] = useState<string>('')
   const [gender, setGender] = useState<string>('')
+  const [artStyle, setArtStyle] = useState<ArtStyle | null>(null)
+  const [showArtStyleSelection, setShowArtStyleSelection] = useState(false)
 
   const handleAnswer = (trait: PersonalityTrait) => {
     const newAnswers = [...answers, trait]
@@ -25,6 +29,7 @@ export default function PersonalityTest() {
       setCurrentQuestion(currentQuestion + 1)
     } else {
       const personalityType = calculatePersonalityType(newAnswers)
+      setShowArtStyleSelection(true)
       setResult(personalityType)
     }
   }
@@ -47,6 +52,31 @@ export default function PersonalityTest() {
     setResult(null)
     setAge('')
     setGender('')
+    setArtStyle(null)
+    setShowArtStyleSelection(false)
+  }
+  
+  const handleArtStyleSelect = (style: ArtStyle) => {
+    setArtStyle(style)
+    setShowArtStyleSelection(false)
+  }
+  
+  const generateImagePrompt = (type: PersonalityType, style: ArtStyle | null) => {
+    if (!style) return '';
+    
+    const personalityResult = personalityDescriptions[type] || { type, description: "描述暂未提供。", details: "" }
+    return `一个${age}岁${gender}的${type}类型人格，${personalityResult.description}，以${style}风格呈现。`
+  }
+  
+  const copyToClipboard = (text: string) => {
+    navigator.clipboard.writeText(text)
+      .then(() => {
+        alert('已复制到剪贴板！')
+      })
+      .catch(err => {
+        console.error('复制失败：', err)
+        alert('复制失败，请手动复制。')
+      })
   }
   
   const handleAgeSubmit = () => {
@@ -60,26 +90,95 @@ export default function PersonalityTest() {
     setCurrentQuestion(0)
   }
 
-  if (result) {
-    const personalityResult = personalityDescriptions[result] || { type: result, description: "描述暂未提供。", details: "" }
+  // 文生图风格选择页面
+  if (result && showArtStyleSelection) {
+    const artStyles: ArtStyle[] = [
+      '线稿', '铅笔', '水墨', '复古漫画',
+      '彩铅', '蜡笔', '点彩', '水彩',
+      '毛毡', '毛线', '粘土', '纸艺',
+      '像素', '史努比', 'riso印刷', '写实'
+    ];
+    
+    const styleCategories = [
+      { name: '基础线条与黑白风格', styles: artStyles.slice(0, 4) },
+      { name: '彩色手绘风格', styles: artStyles.slice(4, 8) },
+      { name: '立体与质感风格', styles: artStyles.slice(8, 12) },
+      { name: '特殊效果与写实风格', styles: artStyles.slice(12, 16) }
+    ];
+    
     return (
       <div className="flex items-center justify-center min-h-screen bg-gray-100 p-4">
         <Card className="w-full max-w-2xl">
           <CardHeader>
-            <CardTitle className="text-2xl sm:text-3xl text-center">作为{age}岁{gender}的{result}类型</CardTitle>
-            <CardDescription className="text-lg text-center mt-4">{personalityResult.description}</CardDescription>
+            <CardTitle className="text-2xl sm:text-3xl text-center">选择文生图风格</CardTitle>
+            <CardDescription className="text-lg text-center mt-4">请选择一种您喜欢的文生图风格</CardDescription>
           </CardHeader>
           <CardContent>
-            <p className="text-md mt-4">{personalityResult.details}</p>
-            {personalityResult.career && (
-              <p className="text-md mt-4">{personalityResult.career}</p>
-            )}
+            <div className="grid gap-6">
+              {styleCategories.map((category, index) => (
+                <div key={index} className="space-y-3">
+                  <h3 className="text-lg font-medium">{category.name}</h3>
+                  <div className="grid grid-cols-2 gap-2">
+                    {category.styles.map((style) => (
+                      <Button 
+                        key={style} 
+                        variant="outline" 
+                        className="justify-start text-left h-auto py-3"
+                        onClick={() => handleArtStyleSelect(style)}
+                      >
+                        {style}
+                      </Button>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
           </CardContent>
-          <CardFooter className="flex justify-center">
-            <Button onClick={resetTest} className="w-full sm:w-auto">重新测试</Button>
-          </CardFooter>
         </Card>
       </div>
+    );
+  }
+  
+  if (result && !showArtStyleSelection) {
+    const personalityResult = personalityDescriptions[result] || { type: result, description: "描述暂未提供。", details: "" }
+    const imagePrompt = generateImagePrompt(result, artStyle);
+    
+    return (
+      <ToastProvider>
+        <div className="flex items-center justify-center min-h-screen bg-gray-100 p-4">
+          <Card className="w-full max-w-2xl">
+            <CardHeader>
+              <CardTitle className="text-2xl sm:text-3xl text-center">作为{age}岁{gender}的{result}类型</CardTitle>
+              <CardDescription className="text-lg text-center mt-4">{personalityResult.description}</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <p className="text-md mt-4">{personalityResult.details}</p>
+              {personalityResult.career && (
+                <p className="text-md mt-4">{personalityResult.career}</p>
+              )}
+              
+              {artStyle && (
+                <div className="mt-6 p-4 bg-gray-50 rounded-md">
+                  <div className="flex justify-between items-center mb-2">
+                    <h3 className="text-lg font-medium">文生图提示词</h3>
+                    <Button 
+                      variant="outline" 
+                      size="sm"
+                      onClick={() => copyToClipboard(imagePrompt)}
+                    >
+                      复制
+                    </Button>
+                  </div>
+                  <p className="text-sm text-gray-700">{imagePrompt}</p>
+                </div>
+              )}
+            </CardContent>
+            <CardFooter className="flex justify-center">
+              <Button onClick={resetTest} className="w-full sm:w-auto">重新测试</Button>
+            </CardFooter>
+          </Card>
+        </div>
+      </ToastProvider>
     )
   }
 

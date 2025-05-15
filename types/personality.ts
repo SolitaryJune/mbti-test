@@ -12,10 +12,17 @@ export interface Question {
   options: OptionsType
 }
 
+export type ArtStyle = 
+  '线稿' | '铅笔' | '水墨' | '复古漫画' | 
+  '彩铅' | '蜡笔' | '点彩' | '水彩' | 
+  '毛毡' | '毛线' | '粘土' | '纸艺' | 
+  '像素' | '史努比' | 'riso印刷' | '写实';
+
 export interface PersonalityResult {
   name: string;
   type: PersonalityType;
   details?: string;
   description: string;
   career?: string;
+  artStyle?: ArtStyle;
 }

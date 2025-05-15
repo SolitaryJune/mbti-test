@@ -63,7 +63,78 @@ export default function PersonalityTest() {
     if (!style) return '';
     
     const personalityResult = personalityDescriptions[type] || { type, description: "描述暂未提供。", details: "" }
-    return `一个${age}岁${gender}的${type}类型人格，${personalityResult.description}，以${style}风格呈现。`
+    
+    // 提取霍兰德职业倾向代码
+    const careerCode = personalityResult.career ? 
+      personalityResult.career.match(/职业倾向：([^\(]+)\(([^\)]+)\)和([^\(]+)\(([^\)]+)\)/) : null;
+    
+    const hollandCodes = careerCode ? `${careerCode[1]}(${careerCode[2]})和${careerCode[3]}(${careerCode[4]})` : '';
+    
+    // 从details中提取关键特质
+    const traits = personalityResult.details ? 
+      personalityResult.details.replace('作为' + type + ',你是一个', '').split('。')[0] : '';
+    
+    // 提取职业示例
+    const careerExamples = personalityResult.career ? 
+      personalityResult.career.match(/如([^。]+)/) : null;
+    const careers = careerExamples ? careerExamples[1].split('、').slice(0, 3).join('、') : '';
+    
+    // 根据人格类型确定适合的场景和活动
+    let scenario = '';
+    if (type.includes('E')) {
+      scenario += '在充满活力的团队会议或社交活动中，';
+    } else if (type.includes('I')) {
+      scenario += '在安静的个人工作空间或小型深度交流场合中，';
+    }
+    
+    if (type.includes('S')) {
+      scenario += '专注于收集和分析具体数据与实际细节，';
+    } else if (type.includes('N')) {
+      scenario += '沉浸于探索创新概念和未来可能性的思考中，';
+    }
+    
+    if (type.includes('T')) {
+      scenario += '运用逻辑框架和客观分析做出理性决策，';
+    } else if (type.includes('F')) {
+      scenario += '以同理心和价值观为基础考虑人际影响和情感需求，';
+    }
+    
+    if (type.includes('J')) {
+      scenario += '按照精心规划的结构和明确的目标有序行动，';
+    } else if (type.includes('P')) {
+      scenario += '保持开放心态灵活应对变化和新机会，';
+    }
+    
+    // 根据霍兰德代码添加工作环境描述
+    let workEnvironment = '';
+    if (hollandCodes.includes('研究型')) {
+      workEnvironment += '在充满智力挑战的研究环境中，专注于分析复杂问题和开发创新解决方案；';
+    } else if (hollandCodes.includes('艺术型')) {
+      workEnvironment += '在富有创意和表现力的工作环境中，自由发挥想象力和审美能力；';
+    } else if (hollandCodes.includes('社会型')) {
+      workEnvironment += '在以人为本的服务环境中，致力于帮助、教育和支持他人的成长与发展；';
+    } else if (hollandCodes.includes('企业型')) {
+      workEnvironment += '在充满挑战的领导岗位上，展现决策力和影响力，推动团队实现目标；';
+    } else if (hollandCodes.includes('常规型')) {
+      workEnvironment += '在结构化和有序的工作环境中，精确处理数据和细节，确保系统高效运行；';
+    } else if (hollandCodes.includes('实用型')) {
+      workEnvironment += '在需要动手能力和技术专长的领域中，解决具体问题并创造有形成果；';
+    }
+    
+    // 根据年龄添加职业阶段描述
+    let careerStage = '';
+    if (parseInt(age) < 25) {
+      careerStage = '正处于职业探索和技能培养阶段，';
+    } else if (parseInt(age) < 35) {
+      careerStage = '正在职业发展道路上积累经验和专业知识，';
+    } else if (parseInt(age) < 50) {
+      careerStage = '已在职业领域建立了专业声誉和影响力，';
+    } else {
+      careerStage = '拥有丰富的职业经验和智慧，可能处于指导和传承阶段，';
+    }
+    
+    // 组合成详细的prompt
+    return `一个${age}岁${gender}的${type}类型(${personalityResult.name})人格，${traits}。${scenario}\n\n这位人物${careerStage}体现了${hollandCodes}的职业倾向，适合从事${careers}等工作。${workEnvironment}\n\n${personalityResult.description}\n\n请以${style}风格呈现这个人物形象，展现其在专业环境中的独特气质、内在特质和职业特点。画面应包含能体现其职业倾向的场景元素和细节，如工作环境、专业工具或互动场景。`
   }
   
   const copyToClipboard = (text: string) => {

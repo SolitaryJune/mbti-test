@@ -222,7 +222,7 @@ export default function PersonalityTest() {
         
         {/* 页脚 */}
         <footer className="w-full bg-white p-4 shadow-sm mt-auto text-center text-gray-600">
-          &copy; <span id="currentYear">2025</span> XiuXin'Inc | 由 <a 
+          &copy; <span id="currentYear">2025</span> XiuXin&apos;Inc | 由 <a 
             href="https://ikxiuxin.com/" className="text-blue-500 hover:underline">XiuXin Inc</a> 强力驱动 
         </footer>
       </div>
@@ -277,7 +277,7 @@ export default function PersonalityTest() {
         
         {/* 页脚 */}
         <footer className="w-full bg-white p-4 shadow-sm mt-auto text-center text-gray-600">
-          &copy; <span id="currentYear">2025</span> XiuXin'Inc | 由 <a 
+          &copy; <span id="currentYear">2025</span> XiuXin&apos;Inc | 由 <a 
             href="https://ikxiuxin.com/" className="text-blue-500 hover:underline">XiuXin Inc</a> 强力驱动 
         </footer>
       </div>
@@ -328,7 +328,7 @@ export default function PersonalityTest() {
         
         {/* 页脚 */}
         <footer className="w-full bg-white p-4 shadow-sm mt-auto text-center text-gray-600">
-          &copy; <span id="currentYear">2025</span> XiuXin'Inc | 由 <a 
+          &copy; <span id="currentYear">2025</span> XiuXin&apos;Inc | 由 <a 
             href="https://ikxiuxin.com/" className="text-blue-500 hover:underline">XiuXin Inc</a> 强力驱动 
         </footer>
       </div>
@@ -377,7 +377,7 @@ export default function PersonalityTest() {
         
         {/* 页脚 */}
         <footer className="w-full bg-white p-4 shadow-sm mt-auto text-center text-gray-600">
-          &copy; <span id="currentYear">2025</span> XiuXin'Inc | 由 <a 
+          &copy; <span id="currentYear">2025</span> XiuXin&apos;Inc | 由 <a 
             href="https://ikxiuxin.com/" className="text-blue-500 hover:underline">XiuXin Inc</a> 强力驱动 
         </footer>
       </div>
@@ -422,7 +422,7 @@ export default function PersonalityTest() {
       
       {/* 页脚 */}
       <footer className="w-full bg-white p-4 shadow-sm mt-auto text-center text-gray-600">
-        &copy; <span id="currentYear">2025</span> XiuXin'Inc | 由 <a 
+        &copy; <span id="currentYear">2025</span> XiuXin&apos;Inc | 由 <a 
           href="https://ikxiuxin.com/" className="text-blue-500 hover:underline">XiuXin Inc</a> 强力驱动 
       </footer>
     </div>

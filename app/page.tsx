@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Label } from "@/components/ui/label"
@@ -11,6 +11,13 @@ import { personalityDescriptions } from '../data/personalityDescriptions'
 import { PersonalityTrait, PersonalityType, ArtStyle } from '../types/personality'
 
 export default function PersonalityTest() {
+  // 更新页脚年份
+  useEffect(() => {
+    const yearElement = document.getElementById('currentYear');
+    if (yearElement) {
+      yearElement.textContent = new Date().getFullYear().toString();
+    }
+  }, []);
   const [currentQuestion, setCurrentQuestion] = useState(-2) // -2: 年龄输入, -1: 性别选择, 0+: MBTI问题
   const [answers, setAnswers] = useState<PersonalityTrait[]>([])
   const [result, setResult] = useState<PersonalityType | null>(null)
@@ -176,8 +183,15 @@ export default function PersonalityTest() {
     ];
     
     return (
-      <div className="flex items-center justify-center min-h-screen bg-gray-100 p-4">
-        <Card className="w-full max-w-2xl">
+      <div className="flex flex-col min-h-screen bg-gray-100">
+        {/* 页面介绍 */}
+        <div className="w-full bg-white p-4 shadow-sm mb-4 text-center">
+          <h1 className="text-2xl font-bold mb-2">MBTI人格测试</h1>
+          <p className="text-gray-600">探索你的性格特质，了解自己的优势和潜力。这个测试将帮助你发现适合的职业方向和个人发展路径。</p>
+        </div>
+        
+        <div className="flex-grow flex items-center justify-center p-4">
+          <Card className="w-full max-w-2xl">
           <CardHeader>
             <CardTitle className="text-2xl sm:text-3xl text-center">选择文生图风格</CardTitle>
             <CardDescription className="text-lg text-center mt-4">请选择一种您喜欢的文生图风格</CardDescription>
@@ -204,6 +218,13 @@ export default function PersonalityTest() {
             </div>
           </CardContent>
         </Card>
+        </div>
+        
+        {/* 页脚 */}
+        <footer className="w-full bg-white p-4 shadow-sm mt-auto text-center text-gray-600">
+          &copy; <span id="currentYear">2025</span> XiuXin'Inc | 由 <a 
+            href="https://ikxiuxin.com/" className="text-blue-500 hover:underline">XiuXin Inc</a> 强力驱动 
+        </footer>
       </div>
     );
   }
@@ -213,8 +234,15 @@ export default function PersonalityTest() {
     const imagePrompt = generateImagePrompt(result, artStyle);
     
     return (
-      <div className="flex items-center justify-center min-h-screen bg-gray-100 p-4">
-        <Card className="w-full max-w-2xl">
+      <div className="flex flex-col min-h-screen bg-gray-100">
+        {/* 页面介绍 */}
+        <div className="w-full bg-white p-4 shadow-sm mb-4 text-center">
+          <h1 className="text-2xl font-bold mb-2">MBTI人格测试</h1>
+          <p className="text-gray-600">探索你的性格特质，了解自己的优势和潜力。这个测试将帮助你发现适合的职业方向和个人发展路径。</p>
+        </div>
+        
+        <div className="flex-grow flex items-center justify-center p-4">
+          <Card className="w-full max-w-2xl">
           <CardHeader>
             <CardTitle className="text-2xl sm:text-3xl text-center">作为{age}岁{gender}的{result}类型</CardTitle>
             <CardDescription className="text-lg text-center mt-4">{personalityResult.description}</CardDescription>
@@ -245,6 +273,13 @@ export default function PersonalityTest() {
             <Button onClick={resetTest} className="w-full sm:w-auto">重新测试</Button>
           </CardFooter>
         </Card>
+        </div>
+        
+        {/* 页脚 */}
+        <footer className="w-full bg-white p-4 shadow-sm mt-auto text-center text-gray-600">
+          &copy; <span id="currentYear">2025</span> XiuXin'Inc | 由 <a 
+            href="https://ikxiuxin.com/" className="text-blue-500 hover:underline">XiuXin Inc</a> 强力驱动 
+        </footer>
       </div>
     )
   }
@@ -282,6 +317,13 @@ export default function PersonalityTest() {
             </form>
           </CardContent>
         </Card>
+        </div>
+        
+        {/* 页脚 */}
+        <footer className="w-full bg-white p-4 shadow-sm mt-auto text-center text-gray-600">
+          &copy; <span id="currentYear">2025</span> XiuXin'Inc | 由 <a 
+            href="https://ikxiuxin.com/" className="text-blue-500 hover:underline">XiuXin Inc</a> 强力驱动 
+        </footer>
       </div>
     );
   }
@@ -317,14 +359,28 @@ export default function PersonalityTest() {
             </div>
           </CardContent>
         </Card>
+        </div>
+        
+        {/* 页脚 */}
+        <footer className="w-full bg-white p-4 shadow-sm mt-auto text-center text-gray-600">
+          &copy; <span id="currentYear">2025</span> XiuXin'Inc | 由 <a 
+            href="https://ikxiuxin.com/" className="text-blue-500 hover:underline">XiuXin Inc</a> 强力驱动 
+        </footer>
       </div>
     );
   }
   
   // MBTI问题页面
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100 p-4">
-      <Card className="w-full max-w-lg">
+    <div className="flex flex-col min-h-screen bg-gray-100">
+      {/* 页面介绍 */}
+      <div className="w-full bg-white p-4 shadow-sm mb-4 text-center">
+        <h1 className="text-2xl font-bold mb-2">MBTI人格测试</h1>
+        <p className="text-gray-600">探索你的性格特质，了解自己的优势和潜力。这个测试将帮助你发现适合的职业方向和个人发展路径。</p>
+      </div>
+      
+      <div className="flex-grow flex items-center justify-center p-4">
+        <Card className="w-full max-w-lg">
         <CardHeader>
           <CardTitle className="text-2xl sm:text-3xl text-center">人格测试</CardTitle>
           <CardDescription className="text-lg text-center mt-2">问题 {currentQuestion + 1} / {questions.length}</CardDescription>
@@ -348,6 +404,13 @@ export default function PersonalityTest() {
           </form>
         </CardContent>
       </Card>
+      </div>
+      
+      {/* 页脚 */}
+      <footer className="w-full bg-white p-4 shadow-sm mt-auto text-center text-gray-600">
+        &copy; <span id="currentYear">2025</span> XiuXin'Inc | 由 <a 
+          href="https://ikxiuxin.com/" className="text-blue-500 hover:underline">XiuXin Inc</a> 强力驱动 
+      </footer>
     </div>
   )
 }

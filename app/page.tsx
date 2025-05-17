@@ -287,43 +287,50 @@ export default function PersonalityTest() {
   // 年龄输入页面
   if (currentQuestion === -2) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-gray-100 p-4">
-        <Card className="w-full max-w-lg">
-          <CardHeader>
-            <CardTitle className="text-2xl sm:text-3xl text-center">人格测试</CardTitle>
-            <CardDescription className="text-lg text-center mt-2">请输入您的年龄</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <form onSubmit={(e) => { e.preventDefault(); handleAgeSubmit(); }}>
-              <div className="grid w-full items-center gap-4">
-                <div className="flex flex-col space-y-1.5">
-                  <Label htmlFor="age" className="text-xl text-left mb-4">年龄</Label>
-                  <input 
-                    type="number" 
-                    id="age" 
-                    value={age} 
-                    onChange={(e) => setAge(e.target.value)}
-                    className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                    placeholder="请输入您的年龄"
-                    min="1"
-                    max="120"
-                    required
-                  />
+      <div className="flex flex-col min-h-screen bg-gray-100">
+        {/* 页面介绍 */}
+        <div className="w-full bg-white p-4 shadow-sm mb-4 text-center">
+          <h1 className="text-2xl font-bold mb-2">MBTI人格测试</h1>
+          <p className="text-gray-600">探索你的性格特质，了解自己的优势和潜力。这个测试将帮助你发现适合的职业方向和个人发展路径。</p>
+        </div>
+        
+        <div className="flex-grow flex items-center justify-center p-4">
+          <Card className="w-full max-w-lg">
+            <CardHeader>
+              <CardTitle className="text-2xl sm:text-3xl text-center">人格测试</CardTitle>
+              <CardDescription className="text-lg text-center mt-2">请输入您的年龄</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <form onSubmit={(e) => { e.preventDefault(); handleAgeSubmit(); }}>
+                <div className="grid w-full items-center gap-4">
+                  <div className="flex flex-col space-y-1.5">
+                    <Label htmlFor="age" className="text-xl text-left mb-4">年龄</Label>
+                    <input 
+                      type="number" 
+                      id="age" 
+                      value={age} 
+                      onChange={(e) => setAge(e.target.value)}
+                      className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                      placeholder="请输入您的年龄"
+                      min="1"
+                      max="120"
+                      required
+                    />
+                  </div>
                 </div>
-              </div>
-              <div className="flex justify-center mt-6">
-                <Button type="submit" className="w-full sm:w-auto" disabled={!age}>继续</Button>
-              </div>
-            </form>
-          </CardContent>
-        </Card>
-      </div>
-      
-      {/* 页脚 */}
-      <footer className="w-full bg-white p-4 shadow-sm mt-auto text-center text-gray-600">
-        &copy; <span id="currentYear">2025</span> XiuXin'Inc | 由 <a 
-          href="https://ikxiuxin.com/" className="text-blue-500 hover:underline">XiuXin Inc</a> 强力驱动 
-      </footer>
+                <div className="flex justify-center mt-6">
+                  <Button type="submit" className="w-full sm:w-auto" disabled={!age}>继续</Button>
+                </div>
+              </form>
+            </CardContent>
+          </Card>
+        </div>
+        
+        {/* 页脚 */}
+        <footer className="w-full bg-white p-4 shadow-sm mt-auto text-center text-gray-600">
+          &copy; <span id="currentYear">2025</span> XiuXin'Inc | 由 <a 
+            href="https://ikxiuxin.com/" className="text-blue-500 hover:underline">XiuXin Inc</a> 强力驱动 
+        </footer>
       </div>
     );
   }
@@ -331,41 +338,48 @@ export default function PersonalityTest() {
   // 性别选择页面
   if (currentQuestion === -1) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-gray-100 p-4">
-        <Card className="w-full max-w-lg">
-          <CardHeader>
-            <CardTitle className="text-2xl sm:text-3xl text-center">人格测试</CardTitle>
-            <CardDescription className="text-lg text-center mt-2">请选择您的性别</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="grid w-full items-center gap-4">
-              <div className="flex flex-col space-y-1.5">
-                <Label htmlFor="gender" className="text-xl text-left mb-4">性别</Label>
-                <RadioGroup onValueChange={(value) => handleGenderSubmit(value)} className="flex flex-col space-y-2">
-                  <label className="flex items-center space-x-2 justify-start">
-                    <RadioGroupItem value="男性" id="male" />
-                    <Label htmlFor="male" className="text-lg cursor-pointer">男性</Label>
-                  </label>
-                  <label className="flex items-center space-x-2 justify-start">
-                    <RadioGroupItem value="女性" id="female" />
-                    <Label htmlFor="female" className="text-lg cursor-pointer">女性</Label>
-                  </label>
-                  <label className="flex items-center space-x-2 justify-start">
-                    <RadioGroupItem value="其他" id="other" />
-                    <Label htmlFor="other" className="text-lg cursor-pointer">其他</Label>
-                  </label>
-                </RadioGroup>
+      <div className="flex flex-col min-h-screen bg-gray-100">
+        {/* 页面介绍 */}
+        <div className="w-full bg-white p-4 shadow-sm mb-4 text-center">
+          <h1 className="text-2xl font-bold mb-2">MBTI人格测试</h1>
+          <p className="text-gray-600">探索你的性格特质，了解自己的优势和潜力。这个测试将帮助你发现适合的职业方向和个人发展路径。</p>
+        </div>
+
+        <div className="flex-grow flex items-center justify-center p-4">
+          <Card className="w-full max-w-lg">
+            <CardHeader>
+              <CardTitle className="text-2xl sm:text-3xl text-center">人格测试</CardTitle>
+              <CardDescription className="text-lg text-center mt-2">请选择您的性别</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="grid w-full items-center gap-4">
+                <div className="flex flex-col space-y-1.5">
+                  <Label htmlFor="gender" className="text-xl text-left mb-4">性别</Label>
+                  <RadioGroup onValueChange={(value) => handleGenderSubmit(value)} className="flex flex-col space-y-2">
+                    <label className="flex items-center space-x-2 justify-start">
+                      <RadioGroupItem value="男性" id="male" />
+                      <Label htmlFor="male" className="text-lg cursor-pointer">男性</Label>
+                    </label>
+                    <label className="flex items-center space-x-2 justify-start">
+                      <RadioGroupItem value="女性" id="female" />
+                      <Label htmlFor="female" className="text-lg cursor-pointer">女性</Label>
+                    </label>
+                    <label className="flex items-center space-x-2 justify-start">
+                      <RadioGroupItem value="其他" id="other" />
+                      <Label htmlFor="other" className="text-lg cursor-pointer">其他</Label>
+                    </label>
+                  </RadioGroup>
+                </div>
               </div>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-      
-      {/* 页脚 */}
-      <footer className="w-full bg-white p-4 shadow-sm mt-auto text-center text-gray-600">
-        &copy; <span id="currentYear">2025</span> XiuXin'Inc | 由 <a 
-          href="https://ikxiuxin.com/" className="text-blue-500 hover:underline">XiuXin Inc</a> 强力驱动 
-      </footer>
+            </CardContent>
+          </Card>
+        </div>
+        
+        {/* 页脚 */}
+        <footer className="w-full bg-white p-4 shadow-sm mt-auto text-center text-gray-600">
+          &copy; <span id="currentYear">2025</span> XiuXin'Inc | 由 <a 
+            href="https://ikxiuxin.com/" className="text-blue-500 hover:underline">XiuXin Inc</a> 强力驱动 
+        </footer>
       </div>
     );
   }

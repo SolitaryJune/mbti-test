@@ -268,6 +268,17 @@ export default function PersonalityTest() {
                 <p className="text-sm text-gray-700">{imagePrompt}</p>
               </div>
             )}
+
+            {/* 添加微信二维码和提示信息 */}
+            <div className="mt-6 p-4 bg-blue-50 rounded-md text-center">
+              <p className="text-md font-medium mb-2">扫码添加微信，发送上方提示词，获取专属AI头像！</p>
+              <img 
+                src="data:image/png;base64,YOUR_BASE64_ENCODED_QR_CODE_STRING_HERE" 
+                alt="微信二维码" 
+                className="mx-auto w-40 h-40 md:w-48 md:h-48"
+              />
+              <p className="text-xs text-gray-600 mt-2">（请替换 YOUR_BASE64_ENCODED_QR_CODE_STRING_HERE 为您的实际二维码Base64编码）</p>
+            </div>
           </CardContent>
           <CardFooter className="flex justify-center">
             <Button onClick={resetTest} className="w-full sm:w-auto">重新测试</Button>

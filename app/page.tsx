@@ -38,6 +38,27 @@ export default function PersonalityTest() {
       setResult(personalityType)
     }
   }
+  
+  const handlePrevious = () => {
+    if (currentQuestion > 0) {
+      // 移除最后一个答案
+      const newAnswers = [...answers]
+      newAnswers.pop()
+      setAnswers(newAnswers)
+      // 返回上一题
+      setCurrentQuestion(currentQuestion - 1)
+    } else if (currentQuestion === 0) {
+      // 从第一个问题返回到性别选择
+      setCurrentQuestion(-1)
+      const newAnswers = [...answers]
+      newAnswers.pop()
+      setAnswers(newAnswers)
+    } else if (currentQuestion === -1) {
+      // 从性别选择返回到年龄输入
+      setCurrentQuestion(-2)
+      setGender('')
+    }
+  }
 
   const calculatePersonalityType = (answers: PersonalityTrait[]): PersonalityType => {
     const counts: Record<PersonalityTrait, number> = {
@@ -217,6 +238,12 @@ export default function PersonalityTest() {
               ))}
             </div>
           </CardContent>
+          <CardFooter className="flex justify-between">
+            <Button variant="outline" onClick={handlePrevious}>
+              返回上一题
+            </Button>
+            <div></div>
+          </CardFooter>
         </Card>
         </div>
         
@@ -428,6 +455,14 @@ export default function PersonalityTest() {
             </div>
           </form>
         </CardContent>
+        <CardFooter className="flex justify-between">
+          {currentQuestion > -2 && (
+            <Button variant="outline" onClick={handlePrevious}>
+              返回上一题
+            </Button>
+          )}
+          <div></div>
+        </CardFooter>
       </Card>
       </div>
       
